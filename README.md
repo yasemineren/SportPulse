@@ -67,4 +67,4 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 * [ ] CRM entegrasyonu ile kişiye özel fiyat teklifleri.
 
 ---
-*Developed by [Adın Soyadın] - 2026*
+*Developed by [Yasemin EREN] - 2026*
