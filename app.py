@@ -50,7 +50,7 @@ occupancy = min(100, (predicted_demand / 100) * 100) # Kapasite 100 varsayıldı
 with col1:
     st.subheader("📊 Demand Nowcast")
     st.metric(label="Tahmini Doluluk", value=f"%{occupancy:.1f}", delta=f"{predicted_demand:.0f} Kişi")
-    st.progress(occupancy / 100)
+    st.progress(float(occupancy) / 100)
 
 # B. Demand Shock Detector (TWIST)
 with col2:
