@@ -30,6 +30,9 @@ Model, normalden sapan talep hareketlerini algılar ve **SHAP** değerlerini kul
 
 ### 3. Sensitivity Lab (Duyarlılık Laboratuvarı) 🌡️
 Havanın, günün saatinin veya özel günlerin talebi nasıl etkilediğini analiz eden interaktif simülasyon ortamı.
+### 4. Geo Analytics & SQL Pipeline 🗺️🗄️
+Tesis koordinatları, etkinlik uzaklığı ve SQL veri akışı sayesinde bölgesel talep farklarını analiz eder.
+* *Çıktı:* Tesis bazlı ortalama talep yoğunluğu tablosu ve harita görünümü.
 
 ## 🚀 Kurulum ve Çalıştırma
 
@@ -54,8 +57,10 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 ## 📂 Dosya Yapısı
 
 * `data_gen.py`: Mevsimsellik, hava durumu ve etkinlik verilerini içeren gelişmiş sentetik veri üreticisi.
+    * SQLite veri yazma/okuma akışı (`sportpulse.db`) ve etkinlik uzaklığı hesaplaması içerir.
 * `model_engine.py`: XGBoost model eğitimi, SHAP analizi ve fiyat optimizasyon algoritmalarını içeren çekirdek motor.
 * `app.py`: Streamlit tabanlı interaktif dashboard arayüzü.
+    * SQL üzerinden veri yükleme ve tesis bazlı harita analizi yapılır.
 
 ## 📸 Ekran Görüntüleri (Örnek)
 
