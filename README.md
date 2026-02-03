@@ -70,6 +70,17 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 * `r_scripts/sql_summary.R`: R ile SQL özet çıktısı (DBI/RSQLite).
 * `reports/bi_mockup.md`: Power BI / Tableau mockup taslağı.
 
+## 🤝 Stakeholder-Facing / Consulting Senaryosu
+SportPulse, teknik çıktıları karar vericilere çevirmek için aşağıdaki iletişim akışını destekleyecek şekilde kurgulanmıştır:
+
+1. **Keşif & KPI Tanımı:** İş hedefleri (doluluk, gelir, fiyat esnekliği) birlikte netleştirilir.
+2. **Modelleme & Senaryo Testi:** Uygulama üzerinden hava/etkinlik/fiyat senaryoları çalıştırılır.
+3. **İçgörü Sunumu:** SHAP açıklamaları ile “neden?” sorusu görsel ve metriklerle paylaşılır.
+4. **BI Teslimi:** CSV/GeoJSON export ile Power BI/Tableau raporları oluşturulur.
+5. **Karar ve Aksiyon:** Önerilen fiyat ve talep etkisi, operasyon ekiplerine aksiyon planı olarak sunulur.
+
+Bu bölüm, danışmanlık/iş paydaşı iletişimi beklentisini proje dokümantasyonunda somutlaştırmak için eklenmiştir.
+
 ## 📸 Ekran Görüntüleri (Örnek)
 
 *(Buraya projenin çalışırken aldığı bir ekran görüntüsünü eklersen harika olur)*
