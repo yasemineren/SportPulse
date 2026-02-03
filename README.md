@@ -18,7 +18,7 @@ Spor tesisleri ve aktivite alanları için talep sadece fiyata bağlı değildir
 
 ## 🏗️ Mimari ve Özellikler
 
-Bu proje 3 ana modülden oluşur:
+Bu proje 4 ana modülden oluşur:
 
 ### 1. Demand Shock Detector (Talep Şoku Dedektörü) 🚨
 Model, normalden sapan talep hareketlerini algılar ve **SHAP** değerlerini kullanarak sebebini açıklar.
@@ -30,6 +30,10 @@ Model, normalden sapan talep hareketlerini algılar ve **SHAP** değerlerini kul
 
 ### 3. Sensitivity Lab (Duyarlılık Laboratuvarı) 🌡️
 Havanın, günün saatinin veya özel günlerin talebi nasıl etkilediğini analiz eden interaktif simülasyon ortamı.
+### 4. Geo Analytics & SQL Pipeline 🗺️🗄️
+Tesis koordinatları, etkinlik uzaklığı ve SQL veri akışı sayesinde bölgesel talep farklarını analiz eder.
+* *Çıktı:* Tesis bazlı ortalama talep yoğunluğu tablosu ve harita görünümü.
+* *BI Hazır Çıktı:* Power BI / Tableau için CSV extract.
 
 ## 🚀 Kurulum ve Çalıştırma
 
@@ -43,7 +47,7 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 2.  **Gerekli kütüphaneleri yükleyin:**
     ```bash
-    pip install pandas numpy xgboost shap plotly streamlit
+    pip install -r requirements.txt
     ```
 
 3.  **Uygulamayı başlatın:**
@@ -53,9 +57,14 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 ## 📂 Dosya Yapısı
 
+* `analytics.py`: SQL sorguları, haftalık trend analizi ve BI için CSV export yardımcıları.
 * `data_gen.py`: Mevsimsellik, hava durumu ve etkinlik verilerini içeren gelişmiş sentetik veri üreticisi.
+    * SQLite veri yazma/okuma akışı (`sportpulse.db`) ve etkinlik uzaklığı hesaplaması içerir.
 * `model_engine.py`: XGBoost model eğitimi, SHAP analizi ve fiyat optimizasyon algoritmalarını içeren çekirdek motor.
 * `app.py`: Streamlit tabanlı interaktif dashboard arayüzü.
+    * SQL üzerinden veri yükleme ve tesis bazlı harita analizi yapılır.
+* `requirements.txt`: Tek komutla kurulum için bağımlılık listesi.
+* `Makefile`: `make setup`, `make data`, `make run` ile tekrar üretilebilir çalışma akışı.
 
 ## 📸 Ekran Görüntüleri (Örnek)
 
