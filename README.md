@@ -34,6 +34,7 @@ Havanın, günün saatinin veya özel günlerin talebi nasıl etkilediğini anal
 Tesis koordinatları, etkinlik uzaklığı ve SQL veri akışı sayesinde bölgesel talep farklarını analiz eder.
 * *Çıktı:* Tesis bazlı ortalama talep yoğunluğu tablosu ve harita görünümü.
 * *BI Hazır Çıktı:* Power BI / Tableau için CSV extract.
+* *ArcGIS/GeoJSON:* Tesis verilerinin GeoJSON çıktısı.
 
 ## 🚀 Kurulum ve Çalıştırma
 
@@ -58,6 +59,7 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 ## 📂 Dosya Yapısı
 
 * `analytics.py`: SQL sorguları, haftalık trend analizi ve BI için CSV export yardımcıları.
+* `geo_analytics.py`: GeoJSON üretimi ve ArcGIS uyumlu çıktı hazırlığı.
 * `data_gen.py`: Mevsimsellik, hava durumu ve etkinlik verilerini içeren gelişmiş sentetik veri üreticisi.
     * SQLite veri yazma/okuma akışı (`sportpulse.db`) ve etkinlik uzaklığı hesaplaması içerir.
 * `model_engine.py`: XGBoost model eğitimi, SHAP analizi ve fiyat optimizasyon algoritmalarını içeren çekirdek motor.
@@ -65,6 +67,19 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
     * SQL üzerinden veri yükleme ve tesis bazlı harita analizi yapılır.
 * `requirements.txt`: Tek komutla kurulum için bağımlılık listesi.
 * `Makefile`: `make setup`, `make data`, `make run` ile tekrar üretilebilir çalışma akışı.
+* `r_scripts/sql_summary.R`: R ile SQL özet çıktısı (DBI/RSQLite).
+* `reports/bi_mockup.md`: Power BI / Tableau mockup taslağı.
+
+## 🤝 Stakeholder-Facing / Consulting Senaryosu
+SportPulse, teknik çıktıları karar vericilere çevirmek için aşağıdaki iletişim akışını destekleyecek şekilde kurgulanmıştır:
+
+1. **Keşif & KPI Tanımı:** İş hedefleri (doluluk, gelir, fiyat esnekliği) birlikte netleştirilir.
+2. **Modelleme & Senaryo Testi:** Uygulama üzerinden hava/etkinlik/fiyat senaryoları çalıştırılır.
+3. **İçgörü Sunumu:** SHAP açıklamaları ile “neden?” sorusu görsel ve metriklerle paylaşılır.
+4. **BI Teslimi:** CSV/GeoJSON export ile Power BI/Tableau raporları oluşturulur.
+5. **Karar ve Aksiyon:** Önerilen fiyat ve talep etkisi, operasyon ekiplerine aksiyon planı olarak sunulur.
+
+Bu bölüm, danışmanlık/iş paydaşı iletişimi beklentisini proje dokümantasyonunda somutlaştırmak için eklenmiştir.
 
 ## 📸 Ekran Görüntüleri (Örnek)
 

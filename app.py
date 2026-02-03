@@ -5,6 +5,7 @@ import plotly.express as px
 from model_engine import DemandEngine
 from data_gen import generate_sport_data, load_sport_data, save_sport_data
 from analytics import load_sql_summary, load_weekly_demand_trend, export_bi_extract
+from geo_analytics import export_facility_geojson
 
 # Sayfa Ayarları
 st.set_page_config(page_title="SportPulse AI", layout="wide")
@@ -118,6 +119,14 @@ with c2:
         facilities.sort_values('avg_demand', ascending=False).head(10),
         use_container_width=True,
     )
+    geojson_path = export_facility_geojson(facilities)
+    with open(geojson_path, "rb") as geojson_file:
+        st.download_button(
+            label="🗺️ ArcGIS / GeoJSON indir",
+            data=geojson_file,
+            file_name=geojson_path.name,
+            mime="application/geo+json",
+        )
 
 st.divider()
 

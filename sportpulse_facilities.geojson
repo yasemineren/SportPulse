@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.85060942338753,
+          39.92563586625787
+        ]
+      },
+      "properties": {
+        "facility_id": 1,
+        "avg_demand": 22.49665497935382
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.84585407802617,
+          39.9253312606195
+        ]
+      },
+      "properties": {
+        "facility_id": 2,
+        "avg_demand": 22.683331483830656
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.854892230701346,
+          39.936223902954985
+        ]
+      },
+      "properties": {
+        "facility_id": 3,
+        "avg_demand": 22.87068402505423
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.84200689352122,
+          39.93277541024577
+        ]
+      },
+      "properties": {
+        "facility_id": 4,
+        "avg_demand": 22.91759984055489
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.853093367639566,
+          39.92679001789826
+        ]
+      },
+      "properties": {
+        "facility_id": 5,
+        "avg_demand": 22.666685751470624
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.848759155983814,
+          39.93253754703972
+        ]
+      },
+      "properties": {
+        "facility_id": 6,
+        "avg_demand": 22.691525036672164
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.85672316557075,
+          39.93080120940901
+        ]
+      },
+      "properties": {
+        "facility_id": 7,
+        "avg_demand": 22.156117462849302
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.84818825129852,
+          39.92905352381072
+        ]
+      },
+      "properties": {
+        "facility_id": 8,
+        "avg_demand": 22.754343219911316
+      }
+    }
+  ]
+}
