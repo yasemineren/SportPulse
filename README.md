@@ -63,12 +63,14 @@ Proje yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 * `data_gen.py`: Mevsimsellik, hava durumu ve etkinlik verilerini içeren gelişmiş sentetik veri üreticisi.
     * SQLite veri yazma/okuma akışı (`sportpulse.db`) ve etkinlik uzaklığı hesaplaması içerir.
 * `model_engine.py`: XGBoost model eğitimi, SHAP analizi ve fiyat optimizasyon algoritmalarını içeren çekirdek motor.
+* `supply_demand.py`: Kapasite, doluluk ve arz-talep dengesini özetleyen yardımcı analizler.
 * `app.py`: Streamlit tabanlı interaktif dashboard arayüzü.
     * SQL üzerinden veri yükleme ve tesis bazlı harita analizi yapılır.
 * `requirements.txt`: Tek komutla kurulum için bağımlılık listesi.
 * `Makefile`: `make setup`, `make data`, `make run` ile tekrar üretilebilir çalışma akışı.
 * `r_scripts/sql_summary.R`: R ile SQL özet çıktısı (DBI/RSQLite).
 * `reports/bi_mockup.md`: Power BI / Tableau mockup taslağı.
+* `reports/job_fit.md`: Veri bilimi pozisyonu için yetkinlik-eşleşme analizi ve eksiklerin kapatılma planı.
 
 ## 🤝 Stakeholder-Facing / Consulting Senaryosu
 SportPulse, teknik çıktıları karar vericilere çevirmek için aşağıdaki iletişim akışını destekleyecek şekilde kurgulanmıştır:
