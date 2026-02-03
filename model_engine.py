@@ -12,6 +12,7 @@ class DemandEngine:
     def train(self, df):
         import shap
         import xgboost as xgb
+
         # Özellikler ve Hedef
         X = df[
             [
