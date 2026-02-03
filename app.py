@@ -45,7 +45,7 @@ forecast_history = None
 forecast_outlook = None
 if statsmodels_available:
     forecast_history, forecast_outlook, _ = load_forecast(df)
-model_metrics = engine.get_metrics()
+model_metrics = engine.get_metrics() if hasattr(engine, "get_metrics") else {}
 
 # 2. Sidebar - Senaryo Oluşturucu
 st.sidebar.header("🎛️ Durum Simülasyonu")
