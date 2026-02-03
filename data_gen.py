@@ -115,6 +115,8 @@ def save_sport_data(df, db_path=DB_PATH):
     db_path = Path(db_path)
     with sqlite3.connect(db_path) as conn:
         df.to_sql("sport_data", conn, if_exists="replace", index=False)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_sport_data_facility ON sport_data(facility_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_sport_data_date ON sport_data(ds)")
 
 
 def load_sport_data(db_path=DB_PATH):

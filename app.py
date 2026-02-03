@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 from model_engine import DemandEngine
 from data_gen import generate_sport_data, load_sport_data, save_sport_data
+from analytics import load_sql_summary, load_weekly_demand_trend, export_bi_extract
 
 # Sayfa Ayarları
 st.set_page_config(page_title="SportPulse AI", layout="wide")
@@ -23,6 +24,8 @@ def load_system():
     return df, engine
 
 df, engine = load_system()
+sql_summary = load_sql_summary()
+weekly_trend = load_weekly_demand_trend()
 
 # 2. Sidebar - Senaryo Oluşturucu
 st.sidebar.header("🎛️ Durum Simülasyonu")
@@ -114,4 +117,25 @@ with c2:
     st.dataframe(
         facilities.sort_values('avg_demand', ascending=False).head(10),
         use_container_width=True,
+    )
+
+st.divider()
+
+st.subheader("🗄️ SQL Analiz Özeti (Power BI / Tableau için hazır)")
+st.dataframe(sql_summary, use_container_width=True)
+trend_fig = px.line(
+    weekly_trend,
+    x="week_of_year",
+    y="avg_demand",
+    title="Haftalık Ortalama Talep Trendi (SQL)",
+)
+st.plotly_chart(trend_fig, use_container_width=True)
+
+bi_extract_path = export_bi_extract(sql_summary)
+with open(bi_extract_path, "rb") as data_file:
+    st.download_button(
+        label="📥 BI Extract (CSV) indir",
+        data=data_file,
+        file_name=bi_extract_path.name,
+        mime="text/csv",
     )
