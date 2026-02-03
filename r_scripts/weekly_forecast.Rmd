@@ -1,0 +1,47 @@
+---
+title: "Weekly Demand Forecast (ARIMA)"
+output: html_notebook
+---
+
+```{r setup, message=FALSE}
+library(DBI)
+library(RSQLite)
+library(dplyr)
+library(lubridate)
+library(forecast)
+```
+
+## Load data
+
+```{r}
+conn <- dbConnect(RSQLite::SQLite(), "sportpulse.db")
+raw <- dbGetQuery(conn, "SELECT ds, y FROM sport_data")
+dbDisconnect(conn)
+
+raw$ds <- as.POSIXct(raw$ds)
+weekly <- raw %>%
+  mutate(week = floor_date(ds, unit = "week")) %>%
+  group_by(week) %>%
+  summarise(avg_demand = mean(y), .groups = "drop") %>%
+  arrange(week)
+```
+
+## Build ARIMA forecast
+
+```{r}
+ts_data <- ts(weekly$avg_demand, frequency = 52)
+fit <- auto.arima(ts_data)
+forecast_out <- forecast(fit, h = 8)
+forecast_out
+```
+
+```{r}
+autoplot(forecast_out) +
+  labs(title = "Weekly Demand Forecast", x = "Week", y = "Avg Demand")
+```
+
+## Accuracy metrics
+
+```{r}
+accuracy(fit)
+```
