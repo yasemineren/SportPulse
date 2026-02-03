@@ -17,6 +17,11 @@ from forecast_engine import build_weekly_forecast
 st.set_page_config(page_title="SportPulse AI", layout="wide")
 
 st.title("⚡ SportPulse: Akıllı Talep ve Fiyatlama Radarı")
+if importlib.util.find_spec("xgboost") is None or importlib.util.find_spec("shap") is None:
+    st.warning(
+        "Talep modeli için xgboost/shap kurulu değil. Tahminler devre dışı. "
+        "`pip install xgboost shap` ile kurabilirsiniz."
+    )
 
 # 1. Veri ve Model Yükleme
 @st.cache_resource
@@ -27,7 +32,8 @@ def load_system():
         df = generate_sport_data()
         save_sport_data(df)
     engine = DemandEngine()
-    engine.train(df)
+    if importlib.util.find_spec("xgboost") is not None and importlib.util.find_spec("shap") is not None:
+        engine.train(df)
     return df, engine
 
 
@@ -45,7 +51,7 @@ forecast_history = None
 forecast_outlook = None
 if statsmodels_available:
     forecast_history, forecast_outlook, _ = load_forecast(df)
-model_metrics = engine.get_metrics()
+model_metrics = engine.get_metrics() if hasattr(engine, "get_metrics") else {}
 
 # 2. Sidebar - Senaryo Oluşturucu
 st.sidebar.header("🎛️ Durum Simülasyonu")

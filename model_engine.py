@@ -1,7 +1,4 @@
 import pandas as pd
-import xgboost as xgb
-import shap
-import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
@@ -13,6 +10,9 @@ class DemandEngine:
         self.metrics = {}
 
     def train(self, df):
+        import shap
+        import xgboost as xgb
+
         # Özellikler ve Hedef
         X = df[
             [
@@ -37,7 +37,7 @@ class DemandEngine:
 
         # Model metrikleri
         predictions = self.model.predict(X_test)
-        rmse = mean_squared_error(y_test, predictions, squared=False)
+        rmse = mean_squared_error(y_test, predictions) ** 0.5
         mae = mean_absolute_error(y_test, predictions)
         self.metrics = {
             "RMSE": rmse,
@@ -52,6 +52,8 @@ class DemandEngine:
 
     def predict_demand(self, features):
         # features: DataFrame tek satır
+        if self.model is None:
+            return 0
         pred = self.model.predict(features)[0]
         return max(0, pred)
 
@@ -63,6 +65,8 @@ class DemandEngine:
         Demand Shock Detector:
         Tahmini en çok artıran veya azaltan faktörü bulur.
         """
+        if self.explainer is None:
+            return "Model eğitilmediği için shock analizi hesaplanamıyor."
         shap_values = self.explainer(features)
 
         # En büyük etkiyi yaratan faktörü bul
