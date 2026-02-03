@@ -10,7 +10,17 @@ class DemandEngine:
     
     def train(self, df):
         # Özellikler ve Hedef
-        X = df[['hour', 'is_weekend', 'temp', 'is_rainy', 'nearby_event', 'price']]
+        X = df[
+            [
+                'hour',
+                'is_weekend',
+                'temp',
+                'is_rainy',
+                'nearby_event',
+                'distance_to_event',
+                'price',
+            ]
+        ]
         y = df['y']
         
         # Modeli Eğit

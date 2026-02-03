@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 from model_engine import DemandEngine
-from data_gen import generate_sport_data
+from data_gen import generate_sport_data, load_sport_data, save_sport_data
 
 # Sayfa Ayarları
 st.set_page_config(page_title="SportPulse AI", layout="wide")
@@ -13,7 +13,11 @@ st.title("⚡ SportPulse: Akıllı Talep ve Fiyatlama Radarı")
 # 1. Veri ve Model Yükleme
 @st.cache_resource
 def load_system():
-    df = generate_sport_data()
+    try:
+        df = load_sport_data()
+    except FileNotFoundError:
+        df = generate_sport_data()
+        save_sport_data(df)
     engine = DemandEngine()
     engine.train(df)
     return df, engine
@@ -28,6 +32,7 @@ input_rain = st.sidebar.checkbox("🌧️ Yağmur Var mı?", value=False)
 input_event = st.sidebar.checkbox("🏟️ Yakında Etkinlik Var mı?", value=True)
 input_weekend = st.sidebar.checkbox("Hafta Sonu mu?", value=False)
 current_price = st.sidebar.number_input("Mevcut Fiyat (TL)", value=150)
+distance_to_event = st.sidebar.slider("Etkinliğe Uzaklık (km)", 0.0, 50.0, 12.0, 0.5)
 
 # Girdi verisini DataFrame'e çevir
 input_data = pd.DataFrame({
@@ -36,6 +41,7 @@ input_data = pd.DataFrame({
     'temp': [input_temp],
     'is_rainy': [1 if input_rain else 0],
     'nearby_event': [1 if input_event else 0],
+    'distance_to_event': [distance_to_event if input_event else 50.0],
     'price': [current_price]
 })
 
@@ -96,10 +102,16 @@ with c1:
     st.plotly_chart(fig, use_container_width=True)
 
 with c2:
-    st.subheader("🗺️ Geo Heatmap (Simüle)")
-    st.info("Bu bölgedeki tesisler için talep yoğunluğu haritası.")
-    # Fake koordinat verisi
-    map_data = pd.DataFrame(
-        np.random.randn(50, 2) / [50, 50] + [39.93, 32.85], # Ankara koordinatları
-        columns=['lat', 'lon'])
-    st.map(map_data)
+    st.subheader("🗺️ Geo Heatmap (Tesis Bazlı)")
+    st.info("Tesislerin konumları ve tahmini talep yoğunluğu haritası.")
+    facilities = (
+        df.groupby(['facility_id', 'lat', 'lon'])['y']
+        .mean()
+        .reset_index()
+        .rename(columns={'y': 'avg_demand'})
+    )
+    st.map(facilities[['lat', 'lon']])
+    st.dataframe(
+        facilities.sort_values('avg_demand', ascending=False).head(10),
+        use_container_width=True,
+    )
