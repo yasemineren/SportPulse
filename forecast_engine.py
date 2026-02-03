@@ -1,5 +1,4 @@
 import pandas as pd
-from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 
 def prepare_weekly_series(df):
@@ -15,6 +14,8 @@ def prepare_weekly_series(df):
 
 
 def build_weekly_forecast(df, periods=8):
+    from statsmodels.tsa.statespace.sarimax import SARIMAX
+
     weekly = prepare_weekly_series(df)
     series = weekly.set_index("ds")["y"]
 

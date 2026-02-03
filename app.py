@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import importlib.util
 import plotly.express as px
 from model_engine import DemandEngine
 from data_gen import generate_sport_data, load_sport_data, save_sport_data
@@ -39,7 +40,11 @@ df, engine = load_system()
 sql_summary = load_sql_summary()
 weekly_trend = load_weekly_demand_trend()
 pricing_insights = load_pricing_insights()
-forecast_history, forecast_outlook, _ = load_forecast(df)
+statsmodels_available = importlib.util.find_spec("statsmodels") is not None
+forecast_history = None
+forecast_outlook = None
+if statsmodels_available:
+    forecast_history, forecast_outlook, _ = load_forecast(df)
 model_metrics = engine.get_metrics()
 
 # 2. Sidebar - Senaryo Oluşturucu
@@ -165,48 +170,54 @@ st.divider()
 forecast_cols = st.columns([2, 1])
 with forecast_cols[0]:
     st.subheader("📈 Haftalık Talep Forecast")
-    forecast_chart = px.line(
-        forecast_history,
-        x="ds",
-        y="actual",
-        title="Geçmiş Haftalık Ortalama Talep",
-    )
-    forecast_chart.add_scatter(
-        x=forecast_outlook["ds"],
-        y=forecast_outlook["forecast"],
-        mode="lines",
-        name="Forecast",
-        line=dict(color="orange"),
-    )
-    forecast_chart.add_scatter(
-        x=forecast_outlook["ds"],
-        y=forecast_outlook["lower_ci"],
-        mode="lines",
-        name="Alt Güven Aralığı",
-        line=dict(color="rgba(255,165,0,0.3)", dash="dot"),
-    )
-    forecast_chart.add_scatter(
-        x=forecast_outlook["ds"],
-        y=forecast_outlook["upper_ci"],
-        mode="lines",
-        name="Üst Güven Aralığı",
-        line=dict(color="rgba(255,165,0,0.3)", dash="dot"),
-    )
-    st.plotly_chart(forecast_chart, use_container_width=True)
+    if statsmodels_available and forecast_history is not None:
+        forecast_chart = px.line(
+            forecast_history,
+            x="ds",
+            y="actual",
+            title="Geçmiş Haftalık Ortalama Talep",
+        )
+        forecast_chart.add_scatter(
+            x=forecast_outlook["ds"],
+            y=forecast_outlook["forecast"],
+            mode="lines",
+            name="Forecast",
+            line=dict(color="orange"),
+        )
+        forecast_chart.add_scatter(
+            x=forecast_outlook["ds"],
+            y=forecast_outlook["lower_ci"],
+            mode="lines",
+            name="Alt Güven Aralığı",
+            line=dict(color="rgba(255,165,0,0.3)", dash="dot"),
+        )
+        forecast_chart.add_scatter(
+            x=forecast_outlook["ds"],
+            y=forecast_outlook["upper_ci"],
+            mode="lines",
+            name="Üst Güven Aralığı",
+            line=dict(color="rgba(255,165,0,0.3)", dash="dot"),
+        )
+        st.plotly_chart(forecast_chart, use_container_width=True)
+    else:
+        st.warning("Forecast modülü için statsmodels kurulu değil. `pip install statsmodels` ile kurabilirsiniz.")
 
 with forecast_cols[1]:
     st.subheader("📌 Forecast Özeti")
-    st.dataframe(
-        forecast_outlook.rename(
-            columns={
-                "ds": "Tarih",
-                "forecast": "Forecast",
-                "lower_ci": "Alt CI",
-                "upper_ci": "Üst CI",
-            }
-        ),
-        use_container_width=True,
-    )
+    if statsmodels_available and forecast_outlook is not None:
+        st.dataframe(
+            forecast_outlook.rename(
+                columns={
+                    "ds": "Tarih",
+                    "forecast": "Forecast",
+                    "lower_ci": "Alt CI",
+                    "upper_ci": "Üst CI",
+                }
+            ),
+            use_container_width=True,
+        )
+    else:
+        st.info("Forecast özeti için statsmodels gereklidir.")
 
 st.divider()
 
